@@ -1,15 +1,14 @@
-const choices = ['rock', 'paper', 'scissors']
-let humanScore, computerScore = 0;
+const CHOICES = ['rock', 'paper', 'scissors']
 
 function getComputerChoice() {
-    cnum = Math.floor(Math.random() * 3);
-    return cnum;
+    numberChoice = Math.floor(Math.random() * 3);
+    return numberChoice;
 }
 
 function getHumanChoice() {
-    let choice = prompt("Rock, paper, or scissors?").toLowerCase();
-    cnum = choices.indexOf(choice);
-    return cnum;
+    let input = prompt("Rock, paper, or scissors?").toLowerCase();
+    numberChoice = CHOICES.indexOf(input);
+    return numberChoice;
 }
 
 function playGame() {
@@ -22,26 +21,26 @@ function playGame() {
         switch(humanChoice) {
             case 0: 
                 switch(computerChoice) {
-                    case 1: win(0); break;
-                    case 2: win(1);
+                    case 1: logWin(0); break;
+                    case 2: logWin(1);
                 }
                 break;
             case 1:
                 switch(computerChoice) {
-                    case 0: win(1); break;
-                    case 2: win(0);
+                    case 0: logWin(1); break;
+                    case 2: logWin(0);
                 }
                 break;
             case 2:
                 switch(computerChoice) {
-                    case 0: win(0); break;
-                    case 1: win(1);
+                    case 0: logWin(0); break;
+                    case 1: logWin(1);
                 }
         }
     }
 
-    function win(x) {
-        if (x > 0) {
+    function logWin(humanWon) {
+        if (humanWon > 0) {
             console.log("You win!");
             humanScore += 1;
         }
@@ -52,12 +51,12 @@ function playGame() {
     }
 
     for (let i=0; i < 5; i++) {
-        h = getHumanChoice();
-        if (h < 0) {
+        input = getHumanChoice();
+        if (input < 0) {
             console.log("Enter either rock, paper, or scissors.");
             continue;
         }
-        playRound(h, getComputerChoice());
+        playRound(input, getComputerChoice());
     }
 }
 
