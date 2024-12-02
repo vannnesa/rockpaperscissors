@@ -1,63 +1,75 @@
 const CHOICES = ['rock', 'paper', 'scissors']
+let buttonList, results, humanScoreDisplay, computerScoreDisplay;
+let humanScore = computerScore = 0;
+
+function initialize() {
+    buttonList = document.getElementById("options");
+    results = document.getElementById("results");
+    humanScoreDisplay = document.getElementById("humanscore");
+    computerScoreDisplay = document.getElementById("computerscore");
+    humanScore, computerScore = 0;
+    buttonList.addEventListener("click", playRound);
+}
 
 function getComputerChoice() {
     numberChoice = Math.floor(Math.random() * 3);
     return numberChoice;
 }
 
-function getHumanChoice() {
-    let input = prompt("Rock, paper, or scissors?").toLowerCase();
-    numberChoice = CHOICES.indexOf(input);
-    return numberChoice;
+function playRound(event) {
+    let computerChoice = getComputerChoice();
+    let target = event.target;
+    let humanChoice = CHOICES.indexOf(target.id);
+    if (humanChoice === computerChoice) {
+        results.textContent = "Tied.";
+    }
+    switch(humanChoice) {
+        case 0: 
+            switch(computerChoice) {
+                case 1: logWin(0); break;
+                case 2: logWin(1);
+            }
+            break;
+        case 1:
+            switch(computerChoice) {
+                case 0: logWin(1); break;
+                case 2: logWin(0);
+            }
+            break;
+        case 2:
+            switch(computerChoice) {
+                case 0: logWin(0); break;
+                case 1: logWin(1);
+            }
+    }
+    updateScore();
 }
 
-function playGame() {
-    let humanScore, computerScore = 0;
-
-    function playRound(humanChoice, computerChoice) {
-        if (humanChoice === computerChoice) {
-            console.log("Tied.");
-        }
-        switch(humanChoice) {
-            case 0: 
-                switch(computerChoice) {
-                    case 1: logWin(0); break;
-                    case 2: logWin(1);
-                }
-                break;
-            case 1:
-                switch(computerChoice) {
-                    case 0: logWin(1); break;
-                    case 2: logWin(0);
-                }
-                break;
-            case 2:
-                switch(computerChoice) {
-                    case 0: logWin(0); break;
-                    case 1: logWin(1);
-                }
-        }
+function logWin(humanWon) {
+    if (humanWon > 0) {
+        results.textContent = "You win!";
+        humanScore += 1;
     }
+    else {
+        results.textContent = "You lose.";
+        computerScore += 1;
+    }
+}
 
-    function logWin(humanWon) {
-        if (humanWon > 0) {
-            console.log("You win!");
-            humanScore += 1;
+function updateScore() {
+    humanScoreDisplay.textContent = humanScore;
+    computerScoreDisplay.textContent = computerScore;
+    if (humanScore >= 5 || computerScore >= 5) {
+        if (humanScore > computerScore) {
+            alert("You win the game!");
         }
         else {
-            console.log("You lose.");
-            computerScore += 1;
+            alert("You lost the game.")
         }
-    }
-
-    for (let i=0; i < 5; i++) {
-        input = getHumanChoice();
-        if (input < 0) {
-            console.log("Enter either rock, paper, or scissors.");
-            continue;
-        }
-        playRound(input, getComputerChoice());
+        humanScore = computerScore = 0;
+        humanScoreDisplay.textContent = humanScore;
+        computerScoreDisplay.textContent = computerScore;
     }
 }
 
-playGame();
+window.addEventListener("load", initialize);
